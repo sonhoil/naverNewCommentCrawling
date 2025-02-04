@@ -11,7 +11,7 @@ import requests
 import re
 from tqdm import tqdm
 import pandas as pd
-
+import datetime
 # ===== 함수 정의 =====
 
 def makePgNum(num):
@@ -188,7 +188,13 @@ if __name__ == "__main__":
     
     if all_comments_dfs:
         final_comments_df = pd.concat(all_comments_dfs, ignore_index=True)
-        final_comments_df.to_excel("all_news_comments.xlsx", index=False)
-        print("\n댓글 수집 및 엑셀 저장 완료! 파일명: all_news_comments.xlsx")
+        now = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        # 파일명에 날짜시간을 추가하여 고유한 파일명 생성
+        filename = f"all_news_comments_{search}_{now}.xlsx"
+        
+        # 엑셀 파일 저장
+        final_comments_df.to_excel(filename, index=False)
+        print("수집완료. 파일명 :"+filename)
     else:
         print("수집된 댓글이 없음.")
